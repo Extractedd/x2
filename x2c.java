@@ -25,7 +25,7 @@ void setup() {
   dogX= 100;
   dogY=100;
 }
-
+ 
 //// NEXT FRAME:  scene, action, show.
 void draw() {
   scene();
