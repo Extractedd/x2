@@ -1,0 +1,180 @@
+//////// What am I trying to do???
+//////// Dymon Harris  (CST 112; today's date?)
+
+//// GLOBALS:  coordinates, speed, etc.
+float horizon;
+float mickeyX, mickeyY;       // Position.
+float mickeyDX, mickeyDY;     // Speed.
+float minnieX, minnieY;
+
+
+//// SETUP:  window size, initialization (start in middle of screen).
+void setup() {
+ size(600,600);
+  horizon=  height/2;
+  mickeyX=  width/2;
+  mickeyY=  height/2;
+  mickeyDX=  3;
+  mickeyDY=  2;
+  minnieX= 100;
+  minnieY= 100;
+}
+
+//// NEXT FRAME:  scene, action, show.
+void draw() {
+  scene();
+  mickey();
+  minnie();
+  messages();
+} 
+
+
+//// SCENE: sky, sun, tree, house, etc.
+
+void scene() {
+background(255);
+
+fill(0,200,200);     // Color Of Sky
+rectMode(CENTER);
+rect(0,0, 1200,500); // Shape Of Sky
+
+
+fill(117,0,0);            // Color Of House
+rectMode(CENTER);
+rect(300,200,  100,100);  // House Dimensions
+
+fill(117,0,0);                         // Color Of Roof
+triangle(300,90,  380,150,  220,150);  // Roof Dimensions
+
+fill(150);              // Color Of Door
+rectMode(CENTER);
+rect(300,225, 35,50);   // Shape Of Door
+
+fill(10);               // Color Of Door Knob
+ellipseMode(CENTER);
+ellipse(312,228, 6,6);  // Shape Of Door Knob
+
+//// Window
+for (int i = 200; i < 220; i++) {
+  float r = random(200);           // Flickering Window Effect
+  fill(r*4);
+rectMode(CENTER);
+rect(330,180, 35,35);       // Shape Of Window
+
+fill(0);  
+line(313,180, 347,180);
+line(330,163, 330,196);
+}
+
+fill(100,200,100);       // Color Of Grass
+rectMode(CENTER);
+rect(0,495,  1200,490);  // Shape Of Grass
+
+fill(255,255,0);         // Color Of Sun 
+ellipseMode(CENTER);
+ellipse(560,40, 70,70);  // Shape Of Sun
+
+fill(127,70,0);         // Color Of Bark
+rectMode(CENTER);
+rect(130,200, 50,100);  // Shape Of Bark
+
+fill(100,200,100);        // Color Of Leaves
+ellipse(100,150, 60,60);  // Leaf 1
+ellipse(160,150, 60,60);  // Leaf 2
+ellipse(130,110, 60,60);  // Leaf 3
+
+fill(127,70,0);           // Color Of Bark
+rectMode(CENTER);  
+rect(460,200, 50,100);    // Bark Dimensions
+
+fill(100,200,100);        //Color Of Leaves
+ellipse(430,150, 60,60);  // Leaf 1
+ellipse(490,150, 60,60);  // Leaf 2
+ellipse(460,110, 60,60);  // Leaf 3
+}
+
+//// ACTION:  move(x,y) cooridinates of mickey & minnie; show them.
+
+// Move & Draw
+void mickey() {
+if (key != 'p') {
+  mickeyX += mickeyDX;
+  mickeyY += mickeyDY;
+}
+// Bounce
+if (mickeyX < 0 || mickeyX > width) {
+  mickeyDX = -mickeyDX;
+}
+// Also force below horizon
+if (mickeyY < horizon ) {
+  mickeyY= horizon;          // Cannot go above horizon
+  mickeyDY= abs(mickeyDY);  // Force it downward
+}
+if (mickeyY < horizon  || mickeyY > height-30) {
+  mickeyDY = -mickeyDY;
+}
+// Show
+showMickey( mickeyX, mickeyY );
+}
+  
+void showMickey(float x, float y) {
+fill(20);                // Color Of Ears
+ellipse(x, y, 60, 60); // Body Shape
+ellipse(x-20, y-35, 30, 30); // Left Ear
+ellipse(x+20, y-35, 30, 30); // Right Ear
+fill(255,0,0);           // Color Of Bottoms
+arc(x, y, 60, 60, 0, PI+QUARTER_PI, CHORD);  // Shape Of Bottoms
+}
+
+// Minnie Chases Mickey
+void minnie() {
+  if (key != 'p') {
+    minnieX=  minnieX + (mickeyX - minnieX)/60;
+    minnieY=  minnieY + (mickeyY-minnieY)/80;
+  }
+  /* INSERT YOUR CODE HERE! */
+  showMinnie( minnieX, minnieY );
+}
+void showMinnie( float x, float y ){
+fill(20);                // Color Of Ears
+ellipse(x, y, 60, 60); // Body Shape
+ellipse(x-20, y-35, 30, 30); // Left Ear
+ellipse(x+20, y-35, 30, 30); // Right Ear
+fill(255,0,100);           // Color Of Bottoms
+arc(x, y, 60, 60, 0, PI+QUARTER_PI, CHORD);  // Shape Of Bottoms
+}  
+
+////
+void messages() {
+fill(100);
+text("My name is Dymon Harris", 10,590);  /// My Name
+}
+
+//////// HANDLERS:  mouse clicks, keys
+void mousePressed() {
+  mickeyX=  mouseX;                             // Set (x,y) to mouse
+  mickeyY=  mouseY;
+  //
+  mickeyDX=  random( -6, +6 );                  // random speed.
+  mickeyDY=  random( -4, +4 );
+}
+
+void keyPressed() {
+  if (key == 'q') {
+    exit();                           // press 'q' key to QUIT.
+  }
+}
+
+
+
+   
+
+
+
+
+
+
+
+
+
+
